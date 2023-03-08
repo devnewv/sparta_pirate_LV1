@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오늘의 전시</title>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+    <style>
+        html,
+        body,
+        h1,
+        h2,
+        h3,
+        p,
+        a,
+        span {
+            margin: 0;
+            padding: 0;
+        }
+
+        .wrap {
+            width: 1050px;
+            margin: auto;
+        }
+
+        .card {
+            width: 320px;
+            height: 340px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+
+            margin: 16px 10px;
+            border: 1px solid black;
+        }
+
+        .card-wrap {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .card-image {
+            background-image: url('https://a.cdn-hotels.com/gdcs/production123/d477/f88c6cdb-3e47-45f5-bfd7-d3775d1f3bcc.jpg?impolicy=fcrop&w=800&h=533&q=medium');
+            background-position: center;
+            background-size: cover;
+
+            width: 100%;
+            height: 200px;
+        }
+
+        .card>span {
+            margin: 8px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .period {
+            color: yellowgreen;
+            font-size: 14px;
+        }
+
+        .tags {
+            color: gray;
+            font-size: 14px;
+            word-break: keep-all;
+        }
+
+        .url-form {
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .plus-form {
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        $(document).ready(() => {
+            showPlusForm();
+        })
+
+        const showUrlForm = () => {
+            $('#url-form').show();
+            $('#plus-form').hide();
+        }
+        const showPlusForm = () => {
+            $('#url-form').hide();
+            $('#plus-form').show();
+        }
+        const posting = () => {
+            let url = $('#url').val();
+
+            let formData = new FormData()
+            formData.append("url_give", url)
+            fetch('/exhibit', {method: "POST", body: formData}).then(res => res.json()).then(data => {
+                alert(data['msg']);
+                window.location.reload();
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <h1>오늘의 전시</h1>
+        <div class="card-wrap">
+            <div class="card">
+                <div class="card-image"></div>
+                <span class="card-title">제목</span>
+                <span class="period">기간</span>
+                <span class="tags">#설명회 #설명회 #설명회 #설명회 #설명회 #설명회 #설명회 #설명회</span>
+            </div>
+            <div id="url-form" class="url-form card">
+                <input id="url" type="text">
+                <div>
+                    <button onclick="showPlusForm()">취소하기</button>
+                    <button onclick="posting()">등록하기</button>
+                </div>
+
+            </div>
+            <div id="plus-form" onclick="showUrlForm()" class="plus-form card">
+                <span>+</span>
+                <span>추가하기</span>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
