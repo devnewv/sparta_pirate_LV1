@@ -1,4 +1,4 @@
-
+#client = MongoClient("mongodb+srv://sparta:test@cluster0.nvtjoqu.mongodb.net/?retryWrites=true&w=majority")
 
 from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
@@ -41,6 +41,11 @@ def post_exhibit():
     db.exhibition.insert_one(doc)
 
     return jsonify({"msg": "저장 완료!"})
+
+@app.route('/exhibit', methods=["GET"])
+def get_exhibit():
+    exhibitions = list(db.exhibition.find({},{'_id':False}))
+    return jsonify({'exhibitions':exhibitions})
 
 if __name__ == "__main__":
 	app.run(debug=True, port=8080)
