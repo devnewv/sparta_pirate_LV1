@@ -47,5 +47,32 @@ def get_exhibit():
     exhibitions = list(db.exhibition.find({},{'_id':False}))
     return jsonify({'exhibitions':exhibitions})
 
+@app.route('/now', methods=["GET"])
+def get_now():
+    url = 'https://korean.visitseoul.net/exhibition'
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+    data = requests.get(url, headers=headers)
+    soup = BeautifulSoup(data.text, 'html.parser')
+
+    items = soup.select('.item > a')
+    base = 'https://korean.visitseoul.net'
+
+    docs = []
+    for item in items:
+        url = base+item['href']
+        image = base+item.select_one('.thumb')['style'].split('(')[1].replace(')','')
+        title = item.select_one('.title').text
+        period = item.select_one('.small-text.text-dot-d').text.strip()
+        doc = {
+            'url':url,
+            'image':image,
+            'title':title,
+            'period':period
+        }
+        docs.append(doc)
+
+    return jsonify({'now':docs})
+
 if __name__ == "__main__":
 	app.run(debug=True, port=8080)
