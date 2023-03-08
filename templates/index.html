@@ -98,7 +98,6 @@
             align-items: center;
             justify-content: center;
         }
-
         .main-image {
             width: 790px;
             height: 420px;
@@ -106,18 +105,15 @@
             background-position: center;
             background-size: cover;
         }
-
         h1 {
             color: white;
             position: absolute;
             top: 50px;
             left: 25%;
         }
-
         h2 {
             margin: 16px 0px;
         }
-
         .url-input {
             width: 220px;
             height: 40px;
@@ -127,11 +123,9 @@
             background-color: #f2f2f2;
             padding: 0px 8px;
         }
-
         .url-input:focus {
             outline: 1px solid gray;
         }
-
         button {
             width: 100px;
             height: 30px;
@@ -140,10 +134,29 @@
             background-color: #f2f2f2;
             font-weight: bold;
         }
-
         .posting-btn {
             background-color: black;
             color: white;
+        }
+        @media screen and (max-width: 700px) {
+            .card {
+                margin: 16px auto;
+                width: 300px;
+                height: 300px;
+            }
+            .card>span {
+                margin: 4px;
+            }
+            .card-title, .period, .tags {
+                font-size: 12px;
+            }
+        }
+        @media screen and (max-width: 400px) {
+            .card {
+                margin: 16px auto;
+                width: 220px;
+                height: 300px;
+            }
         }
     </style>
     <script>
@@ -166,14 +179,14 @@
 
             let formData = new FormData()
             formData.append("url_give", url)
-            fetch('/exhibit', { method: "POST", body: formData }).then(res => res.json()).then(data => {
+            fetch('/exhibit', {method: "POST", body: formData}).then(res => res.json()).then(data => {
                 alert(data['msg']);
                 window.location.reload();
             })
         }
 
         const move = (url) => {
-            window.open(url, '_blank');
+            window.open(url,'_blank');
         }
 
         const listing = () => {
@@ -221,7 +234,7 @@
 
 <body>
     <div class="bg">
-        <h1>오늘의<br />전시</h1>
+        <h1>오늘의<br/>전시</h1>
         <div class="main-image"></div>
     </div>
     <div class="wrap">
@@ -242,7 +255,6 @@
         </div>
         <h2>현재 진행중인 전시</h2>
         <div id="card-now" class="card-wrap">
-
         </div>
     </div>
 
